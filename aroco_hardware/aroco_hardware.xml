@@ -1,0 +1,9 @@
+<library path="aroco_hardware">
+  <class name="aroco_hardware/ArocoHardware"
+         type="romea::ArocoHardware"
+         base_class_type="hardware_interface::SystemInterface">
+    <description>
+      Aroco hardware interface
+    </description>
+  </class>
+</library>
