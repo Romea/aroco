@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<robot name="adap2e" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="aroco" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
     <xacro:include filename="$(find romea_mobile_base_description)/urdf/2AS_4WD_chassis.xacro" />
     <xacro:include filename="$(find romea_mobile_base_description)/ros2_control/2AS_4WD.ros2_control.xacro"/>
 
-    <xacro:property name="conf" value="$(find adap2e_description)/config/aroco.yaml" />
+    <xacro:property name="conf" value="$(find aroco_description)/config/aroco.yaml" />
     <xacro:property name="props" value="${load_yaml(conf)['/**']['ros__parameters']['base_info']}" />
 
     <!-- Link names -->
@@ -25,9 +25,9 @@
 
     <!-- Joint names -->
     <xacro:property name="base_footprint_joint" value="${props['joints']['base_footprint_joint_name']}" />
-    <xacro:property name="front_axle_steering_joint" value="${props['links']['front_axle_steering_joint_name']}" />
-    <xacro:property name="rear_axle_steering_joint" value="${props['links']['rear_axle_steering_joint_name']}" />
     <xacro:property name="inertial_joint" value="${props['joints']['inertial_joint_name']}" />
+    <xacro:property name="front_axle_steering_joint" value="${props['joints']['front_axle_steering_joint_name']}" />
+    <xacro:property name="rear_axle_steering_joint" value="${props['joints']['rear_axle_steering_joint_name']}" />
     <xacro:property name="front_left_wheel_steering_joint" value="${props['joints']['front_left_wheel_steering_joint_name']}" />
     <xacro:property name="front_right_wheel_steering_joint" value="${props['joints']['front_right_wheel_steering_joint_name']}" />
     <xacro:property name="rear_left_wheel_steering_joint" value="${props['joints']['rear_left_wheel_steering_joint_name']}" />
@@ -51,10 +51,11 @@
     <xacro:property name="mass_center_y" value="${props['inertia']['center'][1]}" />
     <xacro:property name="mass_center_z" value="${props['inertia']['center'][2]}" />
 
-    <xacro:property name="minimal_axle_steering_angle" value="-${props['axles_steering_control']['command']['maximal_angle']}"/>
     <xacro:property name="maximal_axle_steering_angle" value="${props['axles_steering_control']['command']['maximal_angle']}"/>
-    <xacro:property name="minimal_wheel_steering_angle" value="-${props['axles_steering_control']['command']['maximal_angle']}"/>
-    <xacro:property name="maximal_wheel_steering_angle" value="${props['axles_steering_control']['command']['maximal_angle']}"/>
+    <xacro:property name="maximal_wheel_steering_angle" value="${atan(tan(maximal_axle_steering_angle)/(1-tan(maximal_axle_steering_angle)*front_track/(2*wheelbase)))}"/>
+    <xacro:property name="minimal_axle_steering_angle" value="${-maximal_axle_steering_angle}"/>
+    <xacro:property name="minimal_wheel_steering_angle" value="${-maximal_wheel_steering_angle} "/>
+
     <xacro:property name="maximal_wheel_speed" value="${props['wheels_speed_control']['command']['maximal_speed']}"/>
     <xacro:property name="body_reference_x" value="${props['control_point'][0]}" />
 
@@ -78,7 +79,7 @@
 
     <!-- Ros2 control hardware plugin -->
     <xacro:property name="simulation_hardware_plugin" value="romea_mobile_base_gazebo/GazeboSystemInterface2AS4WD"/>
-    <xacro:property name="live_hardware_plugin" value="adap2e_hardware/ArocoHardware"/>
+    <xacro:property name="live_hardware_plugin" value="aroco_hardware/ArocoHardware"/>
 
     <xacro:macro name="aroco" params="mode prefix">
 
