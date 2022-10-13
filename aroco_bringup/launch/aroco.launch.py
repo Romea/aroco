@@ -197,7 +197,7 @@ def launch_setup(context, *args, **kwargs):
         executable="cmd_mux_node",
         name="cmd_mux",
         parameters=[{"topics_type": command_message_type}],
-        remappings=[("~/out", "cmd_two_axle_steering")],
+        remappings=[("~/out", "controller/cmd_two_axle_steering")],
         output="screen",
     )
 
