@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 project(aroco_description)
 
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
 
 install(
   DIRECTORY config launch meshes urdf
@@ -9,6 +10,8 @@ install(
 )
 
 ament_environment_hooks("${CMAKE_CURRENT_SOURCE_DIR}/env-hooks/${PROJECT_NAME}.dsv.in")
+
+ament_python_install_module(python/aroco_description.py)
 
 ament_package()
 
