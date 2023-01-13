@@ -20,11 +20,11 @@ def test_footprint_link_name():
 
 def test_hardware_plugin_name():
 
-    urdf_xml("live").find(
+    assert urdf_xml("live").find(
         "ros2_control/hardware/plugin"
     ).text == "aroco_hardware/ArocoHardware"
 
-    urdf_xml("simulation").find(
+    assert urdf_xml("simulation").find(
         "ros2_control/hardware/plugin"
     ).text == "romea_mobile_base_gazebo/GazeboSystemInterface2AS4WD"
 
