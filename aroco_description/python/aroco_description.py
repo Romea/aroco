@@ -8,8 +8,7 @@ from ament_index_python.packages import get_package_share_directory
 def urdf(prefix, mode, controller_conf_yaml_file):
 
     xacro_file = (
-        get_package_share_directory("aroco_description")
-        + "/urdf/aroco.urdf.xacro"
+        get_package_share_directory("aroco_description") + "/urdf/aroco.urdf.xacro"
     )
 
     urdf_xml = xacro.process_file(
