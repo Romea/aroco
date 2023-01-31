@@ -104,7 +104,14 @@ hardware_interface::return_type ArocoHardware::load_info_(
 
 
 //-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------
+#if ROS_DISTRO == ROS_GALACTIC
 hardware_interface::return_type ArocoHardware::read()
+#else
+hardware_interface::return_type ArocoHardware::read(
+  const rclcpp::Time & /*time*/,
+  const rclcpp::Duration & /*period*/)
+#endif
 {
   RCLCPP_INFO(rclcpp::get_logger("ArocoHardware"), "Read data from robot");
 
@@ -125,7 +132,13 @@ hardware_interface::return_type ArocoHardware::read()
 }
 
 //-----------------------------------------------------------------------------
+#if ROS_DISTRO == ROS_GALACTIC
 hardware_interface::return_type ArocoHardware::write()
+# else
+hardware_interface::return_type ArocoHardware<HardwareInteface>::write(
+  const rclcpp::Time & /*time*/,
+  const rclcpp::Duration & /*period*/)
+#endif
 {
   RCLCPP_INFO(rclcpp::get_logger("ArocoHardware"), "Send command to robot");
   return hardware_interface::return_type::OK;
@@ -221,7 +234,7 @@ void ArocoHardware::receive_data_()
 //-----------------------------------------------------------------------------
 bool ArocoHardware::send_command_()
 {
-  return send_start_() &&  // why send start at each command?
+  return send_start_() &&   // why send start at each command?
          send_front_wheel_speeds_() &&
          send_rear_wheel_speeds_() &&
          send_front_steering_angle_() &&
@@ -269,7 +282,9 @@ void ArocoHardware::encode_odo_data_(
 //-----------------------------------------------------------------------------
 bool ArocoHardware::send_front_wheel_speeds_()
 {
-  encode_odo_data_(front_left_wheel_linear_speed_command_, front_right_wheel_linear_speed_command_);
+  encode_odo_data_(
+    front_left_wheel_linear_speed_command_,
+    front_right_wheel_linear_speed_command_);
   return send_data_(FRONT_WHEEL_LINEAR_SPEEDS_COMMAND_ID);
 }
 
@@ -297,7 +312,7 @@ bool ArocoHardware::send_rear_steering_angle_()
 //-----------------------------------------------------------------------------
 bool ArocoHardware::send_start_()
 {
-  sended_frame_data_[0] = 1;  // Demande départ mode autonome
+  sended_frame_data_[0] = 1;   // Demande départ mode autonome
   return send_data_(START_STOP_ID);
 }
 
@@ -424,13 +439,15 @@ void ArocoHardware::write_log_data_()
       front_right_wheel_linear_speed_measure_ << " ";
     debug_file_ << rear_left_wheel_linear_speed_measure_ << " " <<
       rear_right_wheel_linear_speed_measure_ << " ";
-    debug_file_ << front_axle_steering_angle_measure_ << " " << rear_axle_steering_angle_measure_ <<
+    debug_file_ << front_axle_steering_angle_measure_ << " " <<
+      rear_axle_steering_angle_measure_ <<
       " ";
     debug_file_ << front_left_wheel_linear_speed_command_ << " " <<
       front_right_wheel_linear_speed_command_ << " ";
     debug_file_ << rear_left_wheel_linear_speed_command_ << " " <<
       rear_right_wheel_linear_speed_command_ << " ";
-    debug_file_ << front_axle_steering_angle_command_ << " " << rear_axle_steering_angle_command_ <<
+    debug_file_ << front_axle_steering_angle_command_ << " " <<
+      rear_axle_steering_angle_command_ <<
       " /n";
   }
 }

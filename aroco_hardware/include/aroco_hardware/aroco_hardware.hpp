@@ -28,10 +28,19 @@ public:
   RCLCPP_SHARED_PTR_DEFINITIONS(ArocoHardware);
 
   ArocoHardware();
+  #if ROS_DISTRO == ROS_GALACTIC
+  virtual hardware_interface::return_type read();
 
-  hardware_interface::return_type read() override;
+  virtual hardware_interface::return_type write();
+#else
+  virtual hardware_interface::return_type read(
+    const rclcpp::Time & time,
+    const rclcpp::Duration & period);
 
-  hardware_interface::return_type write() override;
+  virtual hardware_interface::return_type write(
+    const rclcpp::Time & time,
+    const rclcpp::Duration & period);
+#endif
 
 private:
   hardware_interface::return_type connect_() override;
