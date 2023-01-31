@@ -136,8 +136,8 @@ hardware_interface::return_type ArocoHardware::read(
 //-----------------------------------------------------------------------------
 #if ROS_DISTRO == ROS_GALACTIC
 hardware_interface::return_type ArocoHardware::write()
-# else
-hardware_interface::return_type ArocoHardware<HardwareInteface>::write(
+#else
+hardware_interface::return_type ArocoHardware::write(
   const rclcpp::Time & /*time*/,
   const rclcpp::Duration & /*period*/)
 #endif
