@@ -19,6 +19,7 @@ find_package(hardware_interface REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_lifecycle REQUIRED)
+find_package(ros2_socketcan)
 find_package(romea_core_common REQUIRED)
 find_package(romea_core_mobile_base REQUIRED)
 find_package(romea_common_utils REQUIRED)
@@ -49,6 +50,7 @@ ament_target_dependencies(
   pluginlib
   rclcpp
   rclcpp_lifecycle
+  ros2_socketcan
   romea_core_common
   romea_core_mobile_base
   romea_common_utils
