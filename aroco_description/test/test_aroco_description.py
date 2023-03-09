@@ -11,7 +11,6 @@ def urdf_xml(mode):
     prefix = "robot_"
     ros_namespace = "/robot"
     controller_conf_yaml_file = mode + "_controller.yaml"
-    print(urdf(prefix, mode, controller_conf_yaml_file))
     return ET.fromstring(urdf(prefix, mode, controller_conf_yaml_file, ros_namespace))
 
 
