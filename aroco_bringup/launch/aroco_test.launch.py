@@ -62,7 +62,7 @@ def launch_setup(context, *args, **kwargs):
 
     actions.append(PushRosNamespace("aroco"))
 
-    teleop_configuration_filename = (
+    teleop_configuration_file_path = (
         get_package_share_directory("aroco_description") + "/config/teleop.yaml"
     )
 
@@ -76,7 +76,7 @@ def launch_setup(context, *args, **kwargs):
                 "robot_type": "aroco",
                 "joystick_type": joystick_type,
                 "joystick_driver": "joy",
-                "teleop_configuration_filename": teleop_configuration_filename,
+                "teleop_configuration_file_path": teleop_configuration_file_path,
             }.items(),
         )
     )
