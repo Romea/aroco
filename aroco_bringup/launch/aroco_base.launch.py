@@ -52,8 +52,11 @@ def launch_setup(context, *args, **kwargs):
     robot_state_publisher = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
-        output="screen",
         parameters=[robot_description],
+        output={
+            'stdout': 'log',
+            'stderr': 'log',
+        },
     )
 
     spawn_entity = Node(
@@ -66,7 +69,10 @@ def launch_setup(context, *args, **kwargs):
             "-entity",
             robot_namespace,
         ],
-        output="screen",
+        output={
+            'stdout': 'log',
+            'stderr': 'log',
+        },
     )
 
     controller_manager = Node(
@@ -74,7 +80,7 @@ def launch_setup(context, *args, **kwargs):
         package="controller_manager",
         executable="ros2_control_node",
         parameters=[robot_description, controller_manager_yaml_file],
-        output="screen",
+        # output="screen",
     )
 
     controller = IncludeLaunchDescription(
