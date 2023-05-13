@@ -4,16 +4,18 @@
   <xacro:arg name="prefix" default="aroco_" />
   <xacro:arg name="mode" default="simulation" />
   <xacro:arg name="controller_conf_yaml_file" default="" />
-  <xacro:arg name="ros_namespace" default="/aroco" />
+  <xacro:arg name="ros_prefix" default="/aroco/" />
 
   <xacro:include filename="$(find aroco_description)/urdf/aroco.xacro" />
   <xacro:aroco mode="$(arg mode)" prefix="$(arg prefix)" />
 
   <gazebo>
     <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+      <hardware>$(arg prefix)base</hardware>
+      <robot_param_node>$(arg ros_prefix)robot_state_publisher</robot_param_node>
       <parameters>$(arg controller_conf_yaml_file)</parameters>
       <ros>
-        <ros_namespace>$(arg ros_namespace)</ros_namespace>
+        <namespace>$(arg ros_prefix)base</namespace>
       </ros>
     </plugin>
   </gazebo>

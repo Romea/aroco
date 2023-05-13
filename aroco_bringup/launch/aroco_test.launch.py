@@ -88,6 +88,7 @@ def launch_setup(context, *args, **kwargs):
                 "robot_type": "aroco",
                 "joystick_type": joystick_type,
                 "joystick_driver": "joy",
+                "joystick_topic": "/aroco/joystick/joy",
                 "teleop_configuration_file_path": teleop_configuration_file_path,
             }.items(),
         )
