@@ -5,7 +5,7 @@
   <xacro:arg name="mode" default="simulation" />
   <xacro:arg name="base_name" default="base" />
 
-  <xacro:include filename="$(find aroco_description)/urdf/ros2_control/aroco.ros2_control.xacro" />
+  <xacro:include filename="$(find aroco_description)/ros2_control/aroco.ros2_control.xacro" />
 
   <xacro:aroco_ros2_control
     mode="$(arg mode)"
