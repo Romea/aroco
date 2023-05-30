@@ -122,7 +122,6 @@ def launch_setup(context, *args, **kwargs):
         name="cmd_mux",
         parameters=[{"topics_type": "romea_mobile_base_msgs/TwoAxleSteeringCommand"}],
         remappings=[("~/out", "controller/cmd_two_axle_steering")],
-        namespace="base",
         output="screen",
     )
 
