@@ -130,11 +130,10 @@ def launch_setup(context, *args, **kwargs):
 
                 IncludeLaunchDescription(
                     PythonLaunchDescriptionSource(
-                        get_package_share_directory("romea_teleop_drivers")
-                        + "/launch/teleop.launch.py"
+                        get_package_share_directory("aroco_bringup")
+                        + "/launch/aroco_teleop.launch.py"
                     ),
                     launch_arguments={
-                        "robot_type": "aroco",
                         "joystick_type": joystick_type,
                         "joystick_driver": "joy",
                         "joystick_topic": "/aroco/joystick/joy",
