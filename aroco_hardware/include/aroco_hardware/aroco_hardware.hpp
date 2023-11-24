@@ -36,6 +36,8 @@
 
 namespace romea
 {
+namespace ros2
+{
 
 class ArocoHardware : public HardwareSystemInterface2AS4WD
 {
@@ -148,6 +150,7 @@ private:
 #endif
 };
 
+}  // namespace ros2
 }  // namespace romea
 
 #endif  // AROCO_HARDWARE__AROCO_HARDWARE_HPP_

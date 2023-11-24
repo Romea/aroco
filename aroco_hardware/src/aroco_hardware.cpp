@@ -13,7 +13,6 @@
 // limitations under the License.
 
 
-
 // std
 #include <memory>
 #include <thread>
@@ -51,6 +50,8 @@ const std::chrono::milliseconds TIMEOUT(5);
 }  // namespace
 
 namespace romea
+{
+namespace ros2
 {
 
 //-----------------------------------------------------------------------------
@@ -184,7 +185,7 @@ hardware_interface::return_type ArocoHardware::write(
 //-----------------------------------------------------------------------------
 void ArocoHardware::get_hardware_command_()
 {
-  HardwareCommand2AS4WD command = hardware_interface_->get_command();
+  core::HardwareCommand2AS4WD command = hardware_interface_->get_command();
 
   front_axle_steering_angle_command_ = command.frontAxleSteeringAngle;
   rear_axle_steering_angle_command_ = command.frontAxleSteeringAngle;
@@ -202,7 +203,7 @@ void ArocoHardware::get_hardware_command_()
 //-----------------------------------------------------------------------------
 void ArocoHardware::set_hardware_state_()
 {
-  HardwareState2AS4WD state;
+  core::HardwareState2AS4WD state;
 
   state.frontAxleSteeringAngle = front_axle_steering_angle_measure_;
   state.rearAxleSteeringAngle = rear_axle_steering_angle_measure_;
@@ -467,7 +468,8 @@ void ArocoHardware::write_log_data_()
 }
 #endif
 
+}  // namespace ros2
 }  // namespace romea
 
 #include "pluginlib/class_list_macros.hpp"
-PLUGINLIB_EXPORT_CLASS(romea::ArocoHardware, hardware_interface::SystemInterface)
+PLUGINLIB_EXPORT_CLASS(romea::ros2::ArocoHardware, hardware_interface::SystemInterface)

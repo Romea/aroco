@@ -1,6 +1,6 @@
 <library path="aroco_hardware">
   <class name="aroco_hardware/ArocoHardware"
-         type="romea::ArocoHardware"
+         type="romea::ros2::ArocoHardware"
          base_class_type="hardware_interface::SystemInterface">
     <description>
       Aroco hardware interface
