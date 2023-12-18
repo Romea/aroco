@@ -56,7 +56,7 @@ namespace ros2
 
 //-----------------------------------------------------------------------------
 ArocoHardware::ArocoHardware()
-: HardwareSystemInterface2AS4WD(),
+: HardwareSystemInterface2AS4WD("ArocoHardware"),
   can_receiver_thread_(nullptr),
   can_receiver_thread_run_(false),
   can_sender_("can0"),
@@ -82,6 +82,15 @@ ArocoHardware::ArocoHardware()
   open_log_file_();
   write_log_header_();
 #endif
+}
+
+//-----------------------------------------------------------------------------
+ArocoHardware::~ArocoHardware()
+{
+  // force deactive when interface has not been deactivated by controller manager but by ctrl-c
+  if (lifecycle_state_.id() == 3) {
+    on_deactivate(lifecycle_state_);
+  }
 }
 
 //-----------------------------------------------------------------------------
@@ -214,7 +223,7 @@ void ArocoHardware::set_hardware_state_()
     front_right_wheel_linear_speed_measure_ / front_wheel_radius_;
   state.rearLeftWheelSpinningMotion.velocity =
     rear_left_wheel_linear_speed_measure_ / rear_wheel_radius_;
-  state.frontRightWheelSpinningMotion.velocity =
+  state.rearRightWheelSpinningMotion.velocity =
     rear_right_wheel_linear_speed_measure_ / rear_wheel_radius_;
 
   hardware_interface_->set_state(state);

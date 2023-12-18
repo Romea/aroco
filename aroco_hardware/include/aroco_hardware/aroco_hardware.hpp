@@ -45,6 +45,9 @@ public:
   RCLCPP_SHARED_PTR_DEFINITIONS(ArocoHardware);
 
   ArocoHardware();
+
+  virtual ~ArocoHardware();
+
   #if ROS_DISTRO == ROS_GALACTIC
   hardware_interface::return_type read()override;
 
