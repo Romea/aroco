@@ -22,7 +22,7 @@
     </xacro:macro>
 
     <xacro:macro name="rear_left_arm_visual">
-        <xacro:arm_visual orientation="${M_PI}x" />
+        <xacro:arm_visual orientation="${M_PI}" />
     </xacro:macro>
 
     <xacro:macro name="rear_right_arm_visual">
