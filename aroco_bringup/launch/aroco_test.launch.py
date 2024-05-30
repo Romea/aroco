@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import yaml
 
 from launch import LaunchDescription
 
@@ -144,6 +145,15 @@ def launch_setup(context, *args, **kwargs):
         )
     )
 
+
+    joy_params_path = '/tmp/aroco_joy_parameters.yaml'
+    joy_params = {
+        'dead_zone': 0.05,
+        'autorepeat_rate': 10.0,
+    }
+    with open(joy_params_path, 'w') as file:
+        file.write(yaml.safe_dump(joy_params))
+
     robot.append(
         GroupAction(
             actions=[
@@ -163,10 +173,9 @@ def launch_setup(context, *args, **kwargs):
                         ]
                     ),
                     launch_arguments={
-                        "device": joystick_device,
-                        "dead_zone": "0.05",
-                        "autorepeat_rate": "10.0",
-                        "frame_id": "joy",
+                        'executable': 'joy_node',
+                        'config_path': joy_params_path,
+                        'frame_id': 'joy'
                     }.items(),
                 )
             ]
