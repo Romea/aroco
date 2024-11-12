@@ -1,20 +1,21 @@
-# 1 Overview #
+# aroco_description #
 
-This package contains the description of aroco robot
+## 1 Overview ##
 
-# 2 Package organization #
+This package contains the description of Aroco robot and scripts to display it
+
+## 2 Package organization ##
 
 This package is organized into subdirectories as follows:
 
-  - urdf/ contains (xacro representations of) urdf descriptions of aroco robot.
+  - urdf/ contains xacro representations of Aroco robot.
 
-  - config/ contains characteristic of each robot:
+  - ros2_control/ contains urdf configuration for ros2 controller
+   
+  - config/ contains characteristics of the  robot and teleop configuration 
 
-    - chassis description
-    - kinematic
-    - odometry
-    - joints and links names
+  - meshes/ contains meshes of chassis
 
-   - meshes/ constains meshes of chassis and wheels
+  - launch/ contains scripts to display the robot and test joints
 
-   - launch/ contains scripts to display robots and test joints
+  - python/ contains a Python module able to create robot urdf
