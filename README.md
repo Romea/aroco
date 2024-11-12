@@ -7,7 +7,7 @@ This project contains several ROS2 packages for working with Aroco robot, both i
 1. create a ROS workspace
 2. cd worskpace
 3. mkdir src
-4. wget https://raw.githubusercontent.com/Romea/adap2e/refs/heads/main/aroco_public.repos
+4. wget https://raw.githubusercontent.com/Romea/aroco/refs/heads/main/aroco_public.repos
 5. vcs import src < aroco_public.repos
 6. colcon build
 7. see bringup package to launch Aroco robot
