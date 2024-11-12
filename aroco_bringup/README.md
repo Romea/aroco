@@ -52,7 +52,7 @@ ros2 launch aroco_bringup aroco_test.launch.py mode:=simulation
 where:
 - ***mode*** (choices: ***simulation*** or ***live***) defines the demonstration mode,   
 
-Below, you can see the ROS pipeline when selecting the simulation mode with the fat Aroco. In live mode, the pipeline remains the same, except that the **gazebo_ros2_controller_manager** is replaced by a standard **ros2_controller_manager**.
+Below, you can see the ROS pipeline when selecting the simulation mode. In live mode, the pipeline remains the same, except that the **gazebo_ros2_controller_manager** is replaced by a standard **ros2_controller_manager**.
 
 ![Controller mapping](doc/test_pipeline.jpg)
 
