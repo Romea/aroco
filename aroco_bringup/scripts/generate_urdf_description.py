@@ -15,9 +15,8 @@
 # limitations under the License.
 
 
-from aroco_bringup import urdf_description
-from romea_common_bringup import robot_urdf_prefix, robot_prefix
-
+from aroco_bringup import generate_urdf_description
+from romea_common_meta_bringup import robot_urdf_prefix, robot_prefix
 import sys
 
 if __name__ == "__main__":
@@ -33,4 +32,4 @@ if __name__ == "__main__":
     base_name = parameters["base_name"]
     prefix = robot_urdf_prefix(parameters["robot_namespace"])
     ros_prefix = robot_prefix(parameters["robot_namespace"])
-    print(urdf_description(prefix, mode, base_name, ros_prefix))
+    print(generate_urdf_description(prefix, mode, base_name, ros_prefix))

@@ -21,79 +21,75 @@ from launch.actions import (
     OpaqueFunction,
     GroupAction,
 )
-from launch.conditions import LaunchConfigurationEquals, LaunchConfigurationNotEquals
-from launch.substitutions import PathJoinSubstitution, LaunchConfiguration
+
+from launch.conditions import IfCondition
+from launch.substitutions import LaunchConfiguration, PythonExpression
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch_ros.actions import Node, SetParameter, PushRosNamespace
-from launch_ros.substitutions import FindPackageShare
+from launch_ros.actions import Node, SetParameter
 from ament_index_python.packages import get_package_share_directory
+from aroco_bringup import generate_ros2_control_description
 
 
 def launch_setup(context, *args, **kwargs):
 
     mode = LaunchConfiguration("mode").perform(context)
+    if "replay" in mode:
+        return []
+
+    if mode == "simulation":
+        mode += "_gazebo_classic"
+
+    tf_prefix = LaunchConfiguration("tf_prefix").perform(context)
     base_name = LaunchConfiguration("base_name").perform(context)
-    robot_namespace = LaunchConfiguration("robot_namespace").perform(context)
 
-    if robot_namespace:
-        controller_manager_name = "/" + robot_namespace + "/base/controller_manager"
-        robot_prefix = robot_namespace + "_"
-    else:
-        controller_manager_name = "/base/controller_manager"
-        robot_prefix = ""
-
-    base_description_yaml_file = (
-        get_package_share_directory("aroco_description") + "/config/aroco.yaml"
+    base_configuration_file_path = (
+        f'{get_package_share_directory("aroco_description")}/config/aroco.yaml'
     )
 
-    controller_manager_yaml_file = (
-        get_package_share_directory("aroco_bringup") + "/config/controller_manager.yaml"
+    controller_manager_configuration_file_path = (
+        f'{get_package_share_directory("aroco_bringup")}/config/controller_manager.yaml'
     )
 
-    base_controller_yaml_file = (
-        get_package_share_directory("aroco_bringup")
-        + "/config/mobile_base_controller.yaml"
+    base_controller_configuration_file_path = (
+        f'{get_package_share_directory("aroco_bringup")}/config/mobile_base_controller.yaml'
     )
 
-    base_ros2_control_description_file = "/tmp/"+robot_prefix+base_name+"_ros2_control.urdf"
-    with open(base_ros2_control_description_file, "r") as f:
-        base_ros2_control_description = f.read()
+    ros2_control_description_node = Node(
+        package="romea_common_meta_bringup",
+        executable="urdf_broadcaster_node",
+        name="ros2_control_description",
+        parameters=[
+            {
+                "robot_description":
+                generate_ros2_control_description(tf_prefix, mode, base_name),
+            }
+        ],
+    )
 
     controller_manager = Node(
-        condition=LaunchConfigurationEquals("mode", "live"),
+        condition=IfCondition(PythonExpression(["'gazebo' not in '", mode, "'"])),
         package="controller_manager",
         executable="ros2_control_node",
         parameters=[
-            {"robot_description": base_ros2_control_description},
-            controller_manager_yaml_file],
-        # namespace="base",
-        # output="screen",
+            # {"robot_description": base_ros2_control_description},
+            controller_manager_configuration_file_path,
+        ],
     )
 
     controller = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            [
-                PathJoinSubstitution(
-                    [
-                        FindPackageShare("romea_mobile_base_controllers"),
-                        "launch",
-                        "mobile_base_controller.launch.py",
-                    ]
-                )
-            ]
+            get_package_share_directory("romea_mobile_base_controllers")
+            + "/launch/mobile_base_controller.launch.py"
         ),
         launch_arguments={
-            "joints_prefix": robot_prefix,
+            "joints_prefix": tf_prefix,
             "controller_name": "mobile_base_controller",
-            "controller_manager_name": controller_manager_name,
-            "base_description_yaml_filename": base_description_yaml_file,
-            "base_controller_yaml_filename": base_controller_yaml_file,
+            "base_configuration_file_path": base_configuration_file_path,
+            "base_controller_configuration_file_path": base_controller_configuration_file_path,
         }.items(),
-        condition=LaunchConfigurationNotEquals("mode", "replay"),
     )
 
     cmd_mux = Node(
-        condition=LaunchConfigurationNotEquals("mode", "replay"),
         package="romea_cmd_mux",
         executable="cmd_mux_node",
         name="cmd_mux",
@@ -102,12 +98,29 @@ def launch_setup(context, *args, **kwargs):
         output="screen",
     )
 
+    # can_receiver = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(
+    #         [
+    #             PathJoinSubstitution(
+    #                 [
+    #                     FindPackageShare("ros2_socketcan"),
+    #                     "launch",
+    #                     "socket_can_receiver.launch.py",
+    #                 ]
+    #             )
+    #         ]
+    #     ),
+    #     launch_arguments={
+    #         "interface": "can0"
+    #     }.items(),
+    # )
+
     return [
         GroupAction(
             actions=[
                 SetParameter(name="use_sim_time", value=(mode != "live")),
-                PushRosNamespace(robot_namespace),
-                PushRosNamespace(base_name),
+                # can_receiver,
+                ros2_control_description_node,
                 controller_manager,
                 controller,
                 cmd_mux,
@@ -118,18 +131,11 @@ def launch_setup(context, *args, **kwargs):
 
 def generate_launch_description():
 
-    declared_arguments = []
-
-    declared_arguments.append(DeclareLaunchArgument("mode", default_value="simulation"))
-
-    declared_arguments.append(
-        DeclareLaunchArgument("robot_namespace", default_value="aroco")
-    )
-
-    declared_arguments.append(
-        DeclareLaunchArgument("base_name", default_value="base")
-    )
-
     return LaunchDescription(
-        declared_arguments + [OpaqueFunction(function=launch_setup)]
+        [
+            DeclareLaunchArgument("mode"),
+            DeclareLaunchArgument("tf_prefix", default_value=""),
+            DeclareLaunchArgument("base_name", default_value="base"),
+            OpaqueFunction(function=launch_setup),
+        ]
     )
