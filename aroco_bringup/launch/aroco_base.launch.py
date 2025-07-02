@@ -98,23 +98,6 @@ def launch_setup(context, *args, **kwargs):
         output="screen",
     )
 
-    # can_receiver = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         [
-    #             PathJoinSubstitution(
-    #                 [
-    #                     FindPackageShare("ros2_socketcan"),
-    #                     "launch",
-    #                     "socket_can_receiver.launch.py",
-    #                 ]
-    #             )
-    #         ]
-    #     ),
-    #     launch_arguments={
-    #         "interface": "can0"
-    #     }.items(),
-    # )
-
     return [
         GroupAction(
             actions=[
