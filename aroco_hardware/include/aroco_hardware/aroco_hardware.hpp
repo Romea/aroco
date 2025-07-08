@@ -48,11 +48,6 @@ public:
 
   virtual ~ArocoHardware();
 
-  #if ROS_DISTRO == ROS_GALACTIC
-  hardware_interface::return_type read()override;
-
-  hardware_interface::return_type write()override;
-#else
   hardware_interface::return_type read(
     const rclcpp::Time & time,
     const rclcpp::Duration & period)override;
@@ -60,7 +55,6 @@ public:
   hardware_interface::return_type write(
     const rclcpp::Time & time,
     const rclcpp::Duration & period)override;
-#endif
 
 private:
   hardware_interface::return_type connect_() override;

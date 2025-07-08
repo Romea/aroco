@@ -125,13 +125,8 @@ hardware_interface::return_type ArocoHardware::load_info_(
 }
 
 //-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
-#if ROS_DISTRO == ROS_GALACTIC
-hardware_interface::return_type ArocoHardware::read()
-#else
 hardware_interface::return_type ArocoHardware::read(
   const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
-#endif
 {
   RCLCPP_DEBUG(rclcpp::get_logger("ArocoHardware"), "Read data from robot");
 
@@ -149,12 +144,8 @@ hardware_interface::return_type ArocoHardware::read(
 }
 
 //-----------------------------------------------------------------------------
-#if ROS_DISTRO == ROS_GALACTIC
-hardware_interface::return_type ArocoHardware::write()
-#else
 hardware_interface::return_type ArocoHardware::write(
   const rclcpp::Time & /*time*/, const rclcpp::Duration & /*period*/)
-#endif
 {
   RCLCPP_DEBUG(rclcpp::get_logger("ArocoHardware"), "Send command to robot");
 
