@@ -45,7 +45,7 @@ const uint32_t STEERING_ANGLES_MEASUREMENT_ID = 0x26;
 
 const uint32_t START_STOP_ID = 0x10;
 
-const std::chrono::milliseconds TIMEOUT(5);
+const std::chrono::milliseconds TIMEOUT(50);
 
 }  // namespace
 
@@ -139,7 +139,7 @@ hardware_interface::return_type ArocoHardware::read(
   const rclcpp::Duration & /*period*/)
 #endif
 {
-  RCLCPP_INFO(rclcpp::get_logger("ArocoHardware"), "Read data from robot");
+  RCLCPP_DEBUG(rclcpp::get_logger("ArocoHardware"), "Read data from robot");
 
   set_hardware_state_();
 
@@ -166,8 +166,7 @@ hardware_interface::return_type ArocoHardware::write(
   const rclcpp::Duration & /*period*/)
 #endif
 {
-  RCLCPP_INFO(rclcpp::get_logger("ArocoHardware"), "Send command to robot");
-  return hardware_interface::return_type::OK;
+  RCLCPP_DEBUG(rclcpp::get_logger("ArocoHardware"), "Send command to robot");
 
   get_hardware_command_();
 
