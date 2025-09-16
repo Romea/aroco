@@ -331,13 +331,13 @@ bool ArocoHardware::send_front_steering_angle_()
 bool ArocoHardware::send_rear_steering_angle_()
 {
   encode_odo_data_(rear_axle_steering_angle_command_, rear_axle_steering_angle_command_);
-  return send_data_(FRONT_STEERING_ANGLE_COMMAND_ID);
+  return send_data_(REAR_STEERING_ANGLE_COMMAND_ID);
 }
 
 //-----------------------------------------------------------------------------
 bool ArocoHardware::send_start_()
 {
-  sended_frame_data_[0] = 1;   // Demande départ mode autonome
+  sended_frame_data_[0] = 2;  // Demande départ mode autonome
   return send_data_(START_STOP_ID);
 }
 
