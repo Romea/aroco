@@ -162,7 +162,7 @@ hardware_interface::return_type ArocoHardware::write(
 
   get_hardware_command_();
 
-  RCLCPP_INFO_STREAM(
+  RCLCPP_DEBUG_STREAM(
     rclcpp::get_logger("ArocoHardware"),
     "wheels speeds command " << front_left_wheel_linear_speed_command_ << " "
                              << front_right_wheel_linear_speed_command_ << " "
@@ -172,7 +172,7 @@ hardware_interface::return_type ArocoHardware::write(
   std::cout << "wheels angless command " << front_axle_steering_angle_command_ << " "
             << rear_axle_steering_angle_command_ << std::endl;
   if (is_drive_enable_()) {
-    RCLCPP_INFO_STREAM(rclcpp::get_logger("ArocoHardware"), " send command ");
+    RCLCPP_DEBUG_STREAM(rclcpp::get_logger("ArocoHardware"), " send command ");
     send_command_();
   }
 
@@ -189,7 +189,7 @@ void ArocoHardware::get_hardware_command_()
   core::HardwareCommand2AS4WD command = hardware_interface_->get_hardware_command();
 
   front_axle_steering_angle_command_ = command.frontAxleSteeringAngle;
-  rear_axle_steering_angle_command_ = command.frontAxleSteeringAngle;
+  rear_axle_steering_angle_command_ = command.rearAxleSteeringAngle;
 
   front_left_wheel_linear_speed_command_ =
     command.frontLeftWheelSpinningSetPoint * front_wheel_radius_;
