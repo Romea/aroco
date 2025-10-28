@@ -145,7 +145,6 @@ def launch_setup(context, *args, **kwargs):
         )
     )
 
-
     joy_params_path = '/tmp/aroco_joy_parameters.yaml'
     joy_params = {
         'dead_zone': 0.05,

@@ -19,8 +19,10 @@
 
   <exec_depend>romea_mobile_base</exec_depend>
   <exec_depend>romea_simulation</exec_depend>
+  <exec_depend>romea_teleop_description</exec_depend>
   <exec_depend>romea_teleop_drivers</exec_depend>
   <exec_depend>romea_joystick_bringup</exec_depend>
+  <exec_depend>romea_joystick_description</exec_depend>
   <exec_depend>romea_cmd_mux</exec_depend>
 
   <exec_depend>gazebo_plugins</exec_depend>
