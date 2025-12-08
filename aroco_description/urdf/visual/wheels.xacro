@@ -5,7 +5,8 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 ${orientation} 0" />
             <geometry>
-                <mesh filename="package://aroco_description/meshes/wheel.dae" />
+                <!-- <mesh filename="package://aroco_description/meshes/wheel.dae" /> -->
+                <mesh filename="file://$(find aroco_description)/meshes/wheel.dae" />
             </geometry>
             <material name="black">
                 <color rgba="0 0 0 1" />
