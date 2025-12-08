@@ -115,8 +115,6 @@ hardware_interface::return_type ArocoHardware::load_info_(
   const hardware_interface::HardwareInfo & hardware_info)
 {
   try {
-    // front_wheel_radius_ = get_parameter<double>(hardware_info, "front_wheel_radius");
-    // rear_wheel_radius_ = get_parameter<double>(hardware_info, "rear_wheel_radius");
     front_wheel_radius_ = get_front_wheel_radius(hardware_info);
     rear_wheel_radius_ = get_rear_wheel_radius(hardware_info);
     return hardware_interface::return_type::OK;
@@ -139,13 +137,13 @@ hardware_interface::return_type ArocoHardware::read(
 
   set_hardware_state_();
 
-  std::cout << "wheels speeds " << front_left_wheel_linear_speed_measure_.load() << " "
-            << front_right_wheel_linear_speed_measure_.load() << " "
-            << rear_left_wheel_linear_speed_measure_.load() << " "
-            << rear_right_wheel_linear_speed_measure_.load() << std::endl;
+  // std::cout << "wheels speeds " << front_left_wheel_linear_speed_measure_.load() << " "
+  //           << front_right_wheel_linear_speed_measure_.load() << " "
+  //           << rear_left_wheel_linear_speed_measure_.load() << " "
+  //           << rear_right_wheel_linear_speed_measure_.load() << std::endl;
 
-  std::cout << "steering angless " << front_axle_steering_angle_measure_.load() << " "
-            << rear_axle_steering_angle_measure_.load() << std::endl;
+  // std::cout << "steering angless " << front_axle_steering_angle_measure_.load() << " "
+  //           << rear_axle_steering_angle_measure_.load() << std::endl;
 
   return hardware_interface::return_type::OK;
 }
@@ -169,8 +167,8 @@ hardware_interface::return_type ArocoHardware::write(
                              << rear_left_wheel_linear_speed_command_ << " "
                              << rear_right_wheel_linear_speed_command_);
 
-  std::cout << "wheels angless command " << front_axle_steering_angle_command_ << " "
-            << rear_axle_steering_angle_command_ << std::endl;
+  // std::cout << "wheels angless command " << front_axle_steering_angle_command_ << " "
+  //           << rear_axle_steering_angle_command_ << std::endl;
   if (is_drive_enable_()) {
     RCLCPP_DEBUG_STREAM(rclcpp::get_logger("ArocoHardware"), " send command ");
     send_command_();
@@ -414,19 +412,12 @@ void ArocoHardware::write_log_header_()
 {
   if (debug_file_.is_open()) {
     debug_file_ << " time, ";
-    debug_file_ << " FLS, "
-                << " FRS, ";
-    debug_file_ << " RLS, "
-                << " RRS, ";
-    debug_file_ << " FSA, "
-                << " RSA, ";
-    debug_file_ << " FLS_cmd, "
-                << " FRS_cmd, ";
-    debug_file_ << " RLS_cmd, "
-                << " RRS_cmd, ";
-    debug_file_ << " FSA_cmd, "
-                << " RSA_cmd, "
-                << "\n";
+    debug_file_ << " FLS, " << " FRS, ";
+    debug_file_ << " RLS, " << " RRS, ";
+    debug_file_ << " FSA, " << " RSA, ";
+    debug_file_ << " FLS_cmd, " << " FRS_cmd, ";
+    debug_file_ << " RLS_cmd, " << " RRS_cmd, ";
+    debug_file_ << " FSA_cmd, " << " RSA_cmd, " << "\n";
   }
 }
 
