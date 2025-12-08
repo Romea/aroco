@@ -5,4 +5,3 @@ include:
 
 variables:
   PKGS_TO_BUILD_TEST: "aroco_bringup aroco_description aroco_hardware"
-  ROS_DISTRO_TO_TEST: "humble"
