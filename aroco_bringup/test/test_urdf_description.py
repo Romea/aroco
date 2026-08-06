@@ -64,10 +64,13 @@ def test_hardware_plugin_name():
         "ros2_control/hardware/plugin"
     ).text == "aroco_hardware/ArocoHardware"
 
-    assert ros2_control_xml("simulation").find(
+    assert ros2_control_xml("simulation_gazebo").find(
+        "ros2_control/hardware/plugin"
+    ).text == "romea_mobile_base_gazebo/GazeboSystemInterface"
+
+    assert ros2_control_xml("simulation_gazebo_classic").find(
         "ros2_control/hardware/plugin"
     ).text == "romea_mobile_base_gazebo/GazeboSystemInterface2AS4WD"
-
 
 def test_controller_filename_name():
     assert (
