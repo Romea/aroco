@@ -15,7 +15,16 @@ This repository-level README gives a map of the stack. Detailed information abou
 | `aroco_bringup` | Main integration entry point for generating Aroco configuration files, URDF descriptions, ros2_control descriptions and launch files. |
 | `aroco_hardware` | Live `ros2_control` hardware plugin for the Aroco mobile base, built on the generic `2AS4WD` hardware abstraction. |
 
+## CAN connection
+
+- Setup can
+  - `sudo ip link set can0 type can bitrate 500000`
+  - `sudo ip link set can0 up`
+- Test can : `candump can0`
+
 ## Usage
+
+Quickstart on real robot : `ros2 launch aroco_bringup aroco_test.launch.py mode:=live`
 
 In most cases, start with `aroco_bringup`. It is the user-facing entry point of the stack and the package used by `romea_mobile_base_meta_bringup` when an Aroco model is selected from a mobile base meta-description.
 
